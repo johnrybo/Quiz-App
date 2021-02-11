@@ -1,4 +1,4 @@
-# Typescript boilerpate projekt
+# Quiz App
 
 Klona ner projektet...
 
