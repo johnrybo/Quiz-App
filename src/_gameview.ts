@@ -306,7 +306,7 @@ class GameView {
   }
 
   private updateLocalStorage() {
-    let players: Array<object> = JSON.parse(localStorage.getItem("highscore"));
+    let players: Array<object> = JSON.parse(localStorage.getItem("highscore")!);
 
     let player: string | null = localStorage.getItem("name");
 

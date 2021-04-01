@@ -38,7 +38,8 @@ class GameOverView {
   }
 
   private updateText() {
-    let scoreLS = JSON.parse(localStorage.getItem("score"));
+    
+    let scoreLS = JSON.parse(localStorage.getItem("score")!);
 
     if (gameState.winner == gameState.playerName) {
       this.highScore.innerHTML =
@@ -52,7 +53,7 @@ class GameOverView {
   }
 
   private getHighScoreFromLS() {
-    let highScoreLS = JSON.parse(localStorage.getItem("highscore"));
+    let highScoreLS = JSON.parse(localStorage.getItem("highscore")!);
     let highScoreTable = document.createElement("table");
 
     let th1 = document.createElement("th");

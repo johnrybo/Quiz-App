@@ -323,6 +323,97 @@ class GameView {
         localStorage.setItem("highscore", JSON.stringify(players));
     }
 }
+class Leader {
+    constructor() {
+        this.wrapper = document.createElement("div");
+        this.wrapper.classList.add("leader");
+        this.wrapper.innerHTML =
+            '<img src="./images/gamemaster.png "width= 100%">';
+        this.responseWrapper = document.createElement("div");
+        this.responseWrapper.classList.add("leader-response");
+        this.response = "";
+        this.responseText = "";
+        this.correctNumber = this.getCorrectNumber();
+    }
+    getCorrectNumber() {
+        return Math.floor(Math.random() * (100 - 1) + 1);
+    }
+    getResponse(guess, name) {
+        if (guess === 12345) {
+            return name + ", hey stupid, guess a number between 1 - 100!";
+        }
+        if (guess > this.correctNumber) {
+            this.response = "lower";
+            return name + ", please guess a lower number!";
+        }
+        else if (guess < this.correctNumber && guess !== 0) {
+            this.response = "higher";
+            return name + ", please guess a higher number!";
+        }
+        else if (guess === 0) {
+            this.response = "higher";
+            return name + ", your time ran out!";
+        }
+        else {
+            this.response = "correct";
+            return name + ", you are correct!";
+        }
+    }
+}
+class Opponent {
+    constructor(name, personality, imageSrc) {
+        this.wrapper = document.createElement("div");
+        this.image = document.createElement("img");
+        this.textElement = document.createElement("div");
+        this.nameElement = document.createElement("p");
+        this.guessElement = document.createElement("p");
+        this.guessElement.innerText = "-";
+        this.textElement.classList.add("text-element");
+        this.guessElement.classList.add("bold-numbers");
+        this.wrapper.classList.add("opponent");
+        this.imageSrc = imageSrc;
+        this.image.src = this.imageSrc;
+        this.image.classList.add("opponent-image");
+        this.name = name;
+        this.personality = personality;
+        this.nameElement.innerText = this.name;
+        this.guess = 0;
+        this.textElement.appendChild(this.nameElement);
+        this.textElement.append(this.guessElement);
+        this.wrapper.appendChild(this.image);
+        this.wrapper.appendChild(this.textElement);
+    }
+    getDumbGuess(previousGuess, correctNumber) {
+        if (previousGuess > correctNumber) {
+            this.guess = previousGuess - 1;
+        }
+        else {
+            this.guess = previousGuess + 1;
+        }
+        setTimeout(() => {
+            this.printGuess();
+        }, 0);
+    }
+    getRandomGuess() {
+        const min = Math.ceil(1);
+        const max = Math.floor(100);
+        this.guess = Math.floor(Math.random() * (max - min) + min);
+        setTimeout(() => {
+            this.printGuess();
+        }, 0);
+    }
+    getSmartGuess(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        this.guess = Math.floor(Math.random() * (max - min) + min);
+        setTimeout(() => {
+            this.printGuess();
+        }, 0);
+    }
+    printGuess() {
+        this.guessElement.innerText = String(this.guess);
+    }
+}
 class StartView {
     constructor() {
         this.gameWrapper = document.createElement("div");
@@ -442,101 +533,10 @@ class GameState {
         }
     }
 }
-class Leader {
-    constructor() {
-        this.wrapper = document.createElement("div");
-        this.wrapper.classList.add("leader");
-        this.wrapper.innerHTML =
-            '<img src="./images/gamemaster.png "width= 100%">';
-        this.responseWrapper = document.createElement("div");
-        this.responseWrapper.classList.add("leader-response");
-        this.response = "";
-        this.responseText = "";
-        this.correctNumber = this.getCorrectNumber();
-    }
-    getCorrectNumber() {
-        return Math.floor(Math.random() * (100 - 1) + 1);
-    }
-    getResponse(guess, name) {
-        if (guess === 12345) {
-            return name + ", hey stupid, guess a number between 1 - 100!";
-        }
-        if (guess > this.correctNumber) {
-            this.response = "lower";
-            return name + ", please guess a lower number!";
-        }
-        else if (guess < this.correctNumber && guess !== 0) {
-            this.response = "higher";
-            return name + ", please guess a higher number!";
-        }
-        else if (guess === 0) {
-            this.response = "higher";
-            return name + ", your time ran out!";
-        }
-        else {
-            this.response = "correct";
-            return name + ", you are correct!";
-        }
-    }
-}
-class Opponent {
-    constructor(name, personality, imageSrc) {
-        this.wrapper = document.createElement("div");
-        this.image = document.createElement("img");
-        this.textElement = document.createElement("div");
-        this.nameElement = document.createElement("p");
-        this.guessElement = document.createElement("p");
-        this.guessElement.innerText = "-";
-        this.textElement.classList.add("text-element");
-        this.guessElement.classList.add("bold-numbers");
-        this.wrapper.classList.add("opponent");
-        this.imageSrc = imageSrc;
-        this.image.src = this.imageSrc;
-        this.image.classList.add("opponent-image");
-        this.name = name;
-        this.personality = personality;
-        this.nameElement.innerText = this.name;
-        this.guess = 0;
-        this.textElement.appendChild(this.nameElement);
-        this.textElement.append(this.guessElement);
-        this.wrapper.appendChild(this.image);
-        this.wrapper.appendChild(this.textElement);
-    }
-    getDumbGuess(previousGuess, correctNumber) {
-        if (previousGuess > correctNumber) {
-            this.guess = previousGuess - 1;
-        }
-        else {
-            this.guess = previousGuess + 1;
-        }
-        setTimeout(() => {
-            this.printGuess();
-        }, 0);
-    }
-    getRandomGuess() {
-        const min = Math.ceil(1);
-        const max = Math.floor(100);
-        this.guess = Math.floor(Math.random() * (max - min) + min);
-        setTimeout(() => {
-            this.printGuess();
-        }, 0);
-    }
-    getSmartGuess(min, max) {
-        min = Math.ceil(min);
-        max = Math.floor(max);
-        this.guess = Math.floor(Math.random() * (max - min) + min);
-        setTimeout(() => {
-            this.printGuess();
-        }, 0);
-    }
-    printGuess() {
-        this.guessElement.innerText = String(this.guess);
-    }
-}
-class User {
-}
 const gameState = new GameState();
 window.addEventListener("load", () => {
     gameState.runGame();
 });
+class User {
+}
 //# sourceMappingURL=bundle.js.map
